@@ -219,17 +219,11 @@ docker-compose up -d
 
 ### **Swagger**
 
--   Tersedia di endpoint `/api/documentation/`
+-   Tersedia di endpoint `http://127.0.0.1:8000/api/documentation/`
 
 ### **Postman Collection**
 
 -   Dokumentasi API tersedia dalam Postman Collection (**on file**)
-
----
-
-## 🤝 Contributing
-
-Pull request sangat disambut baik! Silakan buka issue terlebih dahulu sebelum melakukan perubahan besar.
 
 ---
 

@@ -1,0 +1,575 @@
+{
+	"info": {
+		"_postman_id": "4e097950-cfef-4b3d-b3a8-7c5c165b6174",
+		"name": "BE Dev - Tech Tes - API Ecommerce",
+		"description": "This API collection is designed to manage an e-commerce system, including user management, products, orders, payments, and other essential features that support e-commerce operations.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26237174"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Fadel Razsiah\",\n  \"email\": \"fadelrzsh@gmail.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows the user to register with the application.\n\n#### Request Body\n\n- `name` (string) : The name of the user.\n    \n- `email` (string) : The email address of the user.\n    \n- `password` (string) : The password for the user account.\n    \n- `password_confirmation` (string) : The confirmation of the password.\n    \n\n#### Response\n\nThe response will be in JSON format with the following schema:\n\n``` json\n{\n    \"token\": \"string\"\n}\n\n ```\n\n- `token` (string) : The authentication token for the registered user."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"fadelrzsh@gmail.com\",\n  \"password\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"login"
+							]
+						},
+						"description": "### Login API\n\nThis API endpoint is used to authenticate users and obtain a token for accessing protected resources.\n\n#### Request Body\n\n- email (string, required): The email address of the user.\n    \n- password (string, required): The password for the user account.\n    \n\n#### Response\n\nUpon successful authentication, the API returns a JSON object with a token field containing the authentication token.\n\nExample:\n\n``` json\n{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"logout"
+							]
+						},
+						"description": "The `POST /api/logout` endpoint is used to log out the user from the system. Upon successful execution, the API returns a JSON response with a status code of 200 and a content type of `application/json`. The response schema for this request can be documented as follows:\n\n``` json\n{\n    \"message\": \"Logged out\"\n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "This folder contains API endpoints related to authentication and user management within the e-commerce system. It handles user registration, login, token management, and account security."
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Show Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/products",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "The endpoint retrieves a list of products in the form of a JSON array. Each product object in the array contains the following properties:\n\n- \"id\" (number): The unique identifier of the product.\n    \n- \"name\" (string): The name of the product.\n    \n- \"price\" (string): The price of the product.\n    \n- \"stock\" (number): The available stock quantity of the product.\n    \n- \"description\" (string): A description of the product.\n    \n- \"created_at\" (string): The timestamp indicating when the product was created.\n    \n- \"updated_at\" (string): The timestamp indicating when the product was last updated."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jersey Basket\",\n  \"description\": \"Jersey berkualitas untuk bermain basket.\",\n  \"price\": 180000,\n  \"stock\": 20\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/products",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "### Create a New Product\n\nThis endpoint allows you to create a new product.\n\n#### Request Body\n\n- name (string, required): The name of the product.\n    \n- description (string, required): The description of the product.\n    \n- price (number, required): The price of the product.\n    \n- stock (number, required): The available stock of the product.\n    \n\n#### Response\n\nThe response will be in JSON format and will have the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"name\": {\"type\": \"string\"},\n        \"description\": {\"type\": \"string\"},\n        \"price\": {\"type\": \"number\"},\n        \"stock\": {\"type\": \"number\"},\n        \"updated_at\": {\"type\": \"string\"},\n        \"created_at\": {\"type\": \"string\"},\n        \"id\": {\"type\": \"number\"}\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Detail Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/products/4",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"4"
+							]
+						},
+						"description": "This endpoint makes an HTTP GET request to retrieve the details of a specific product with the ID 4. The response will contain the product's ID, name, price, stock, description, creation timestamp, and last update timestamp.\n\n### Request Body\n\nThis request does not require a request body.\n\n### Response Body\n\n- `id` (number): The unique identifier of the product.\n    \n- `name` (string): The name of the product.\n    \n- `price` (string): The price of the product.\n    \n- `stock` (number): The available stock of the product.\n    \n- `description` (string): The description of the product.\n    \n- `created_at` (string): The timestamp when the product was created.\n    \n- `updated_at` (string): The timestamp when the product was last updated."
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jersey Futsal\",\n  \"description\": \"Jersey berkualitas untuk bermain futsal.\",\n  \"price\": 160000,\n  \"stock\": 21\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/products/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						},
+						"description": "### Update Product\n\nThis endpoint allows updating a specific product by its ID.\n\n#### Request Body\n\n- Type: JSON\n    \n    - name (string): The name of the product\n        \n    - description (string): The description of the product\n        \n    - price (number): The price of the product\n        \n    - stock (number): The available stock of the product\n        \n\nExample:\n\n``` json\n{\n  \"name\": \"Jersey Futsal\",\n  \"description\": \"Jersey berkualitas untuk berma ...\",\n  \"price\": 160000,\n  \"stock\": 21\n}\n\n ```\n\n#### Response\n\nThe response of this request can be represented as a JSON schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\"\n    },\n    \"name\": {\n      \"type\": \"string\"\n    },\n    \"price\": {\n      \"type\": \"string\"\n    },\n    \"stock\": {\n      \"type\": \"number\"\n    },\n    \"description\": {\n      \"type\": \"string\"\n    },\n    \"created_at\": {\n      \"type\": \"string\"\n    },\n    \"updated_at\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/products/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"2"
+							]
+						},
+						"description": "### Delete Product\n\nThis endpoint is used to delete a specific product by its ID.\n\n#### Request Body\n\nThis request does not require a request body.\n\n#### Response\n\nThe response will be in JSON format with a status code of 200. The response schema is as follows:\n\n``` json\n{\n    \"message\": \"Produk berhasil dihapus\"\n}\n\n ```\n\nThe `message` property will contain a message indicating the result of the deletion operation."
+					},
+					"response": []
+				}
+			],
+			"description": "This folder contains API endpoints for managing products within the e-commerce system. It provides functionalities for creating, retrieving, updating, and deleting product data, ensuring seamless product catalog management."
+		},
+		{
+			"name": "Order & Invoice",
+			"item": [
+				{
+					"name": "Create Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer_name\": \"Fadel Razsiah\",\n  \"items\": [\n    { \"product_id\": 1, \"quantity\": 2 },\n    { \"product_id\": 3, \"quantity\": 1 }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/orders",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders"
+							]
+						},
+						"description": "### Add Order\n\nThis endpoint allows you to add a new order.\n\n#### Request Body\n\n- `customer_name` (string) - The name of the customer.\n    \n- `items` (array) - An array of objects containing the `product_id` (integer) and `quantity` (integer) for each item.\n    \n\nExample:\n\n``` json\n{\n    \"customer_name\": \"Fadel Razsiah\",\n    \"items\": [\n        {\n            \"product_id\": 1,\n            \"quantity\": 2\n        }\n    ]\n}\n\n ```\n\n#### Response\n\n- Status: 201 Created\n    \n- Content-Type: application/json\n    \n\nExample:\n\n``` json\n{\n    \"message\": \"\",\n    \"order\": {\n        \"customer_name\": \"\",\n        \"status\": \"\",\n        \"total_price\": 0,\n        \"updated_at\": \"\",\n        \"created_at\": \"\",\n        \"id\": 0\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"status\": \"pending\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/orders/4/status",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders",
+								"4",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/orders/4/pay",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders",
+								"4",
+								"pay"
+							]
+						},
+						"description": "### Pay for Order\n\nThis endpoint is used to make a payment for a specific order.\n\n**Request Body**\n\n- order_id (text, required): The ID of the order to be paid.\n    \n\n**Response**\n\n- message (string): A message indicating the result of the payment.\n    \n- order (object): Details of the updated order after the payment, including ID, customer name, status, total price, creation timestamp, and last update timestamp.\n    \n\nExample:\n\n``` json\n{\n    \"message\": \"Payment successful\",\n    \"order\": {\n        \"id\": 4,\n        \"customer_name\": \"Fadel Razsiah\",\n        \"status\": \"completed\",\n        \"total_price\": 50.00,\n        \"created_at\": \"2022-01-01T12:00:00Z\",\n        \"updated_at\": \"2022-01-01T12:30:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Invoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// { \n//     \"custom_price\": 370000, \n//     \"invoice_date\": \"2024-02-25\" \n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/invoices/4",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"invoices",
+								"4"
+							]
+						},
+						"description": "### POST /api/invoices/4\n\nThis endpoint is used to retrieve a specific invoice by its ID.\n\n#### Request Body\n\n- The request does not require a body.\n    \n\n#### Response\n\nThe response will be in JSON format with the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"message\": {\n      \"type\": \"string\"\n    },\n    \"invoice\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"order_id\": {\n          \"type\": \"integer\"\n        },\n        \"amount\": {\n          \"type\": \"number\"\n        },\n        \"invoice_date\": {\n          \"type\": \"string\",\n          \"format\": \"date-time\"\n        },\n        \"updated_at\": {\n          \"type\": \"string\",\n          \"format\": \"date-time\"\n        },\n        \"created_at\": {\n          \"type\": \"string\",\n          \"format\": \"date-time\"\n        },\n        \"id\": {\n          \"type\": \"integer\"\n        }\n      }\n    }\n  }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Custom Price",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"custom_price\": 370000\n    // \"invoice_date\": 5000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/invoices/4",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"invoices",
+								"4"
+							]
+						},
+						"description": "### Add Invoice Custom Price\n\nThis endpoint allows the user to update the custom price for a specific invoice.\n\n#### Request Body\n\n- `custom_price` (number) - The new custom price for the invoice.\n    \n\n#### Response\n\nUpon successful execution, the server returns a status code of 200 and a JSON object with the updated invoice details, including the order ID, amount, invoice date, and timestamps.\n\nExample:\n\n``` json\n{\n    \"message\": \"\",\n    \"invoice\": {\n        \"order_id\": 0,\n        \"amount\": 0,\n        \"invoice_date\": \"\",\n        \"updated_at\": \"\",\n        \"created_at\": \"\",\n        \"id\": 0\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Backdated Invoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|ypFJjJ0OdpZf5SYr8tKHMZWq3oAoCh15DtwN1vnga00329eb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"invoice_date\": \"2024-01-24\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/invoices/4",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"invoices",
+								"4"
+							]
+						},
+						"description": "### POST /api/invoices/4\n\nThis endpoint is used to create a new invoice with the specified invoice date.\n\n#### Request Body\n\n- invoice_date (string, required): The date of the invoice in the format \"YYYY-MM-DD\".\n    \n\n#### Response\n\nThe response will be a JSON object with the following properties:\n\n``` json\n{\n  \"message\": \"string\",\n  \"invoice\": {\n    \"order_id\": \"number\",\n    \"amount\": \"number\",\n    \"invoice_date\": \"string\",\n    \"updated_at\": \"string\",\n    \"created_at\": \"string\",\n    \"id\": \"number\"\n  }\n}\n\n ```\n\nThe `message` property may contain additional information about the request. The `invoice` object includes details of the newly created invoice such as `order_id`, `amount`, `invoice_date`, `updated_at`, `created_at`, and `id`."
+					},
+					"response": []
+				}
+			],
+			"description": "This folder contains API endpoints for handling customer orders and generating invoices in the e-commerce system. It ensures smooth order processing, payment tracking, and invoice generation for a seamless purchasing experience."
+		}
+	]
+}

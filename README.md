@@ -1,66 +1,238 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Order & Invoice Management API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Order & Invoice Management API adalah REST API berbasis Laravel yang digunakan untuk mengelola pesanan, faktur, dan produk dalam sistem e-commerce. API ini menyediakan fitur seperti autentikasi pengguna, manajemen produk, pembuatan pesanan, serta pembuatan faktur.
 
-## About Laravel
+## 📌 Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   🔑 **Autentikasi Pengguna** (Register, Login, Sanctum)
+-   📦 **Manajemen Produk** (CRUD Produk)
+-   🛒 **Manajemen Pesanan** (Pembuatan & Pemrosesan Pesanan)
+-   📄 **Pembuatan Faktur** (Invoice untuk Pesanan)
+-   📊 **Dokumentasi API** (Swagger & Postman)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Installation
 
-## Learning Laravel
+1. **Clone repository ini**:
+    ```sh
+    git clone https://github.com/fadelrazh/invoice-api.git
+    cd invoice-api
+    ```
+2. **Install dependencies**:
+    ```sh
+    composer install
+    ```
+3. **Atur file konfigurasi `.env`**:
+    ```sh
+    cp .env.example .env
+    ```
+4. **Generate application key**:
+    ```sh
+    php artisan key:generate
+    ```
+5. **Jalankan migrasi database**:
+    ```sh
+    php artisan migrate
+    ```
+6. **Jalankan server Laravel**:
+    ```sh
+    php artisan serve
+    ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+💡 **Opsional:** Jika menggunakan Docker, jalankan dengan:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```sh
+docker-compose up -d
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🗃 Database Structure
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### **Orders Table**
 
-### Premium Partners
+| Column        | Type          | Description                                              |
+| ------------- | ------------- | -------------------------------------------------------- |
+| id            | BIGINT (PK)   | Primary key                                              |
+| customer_name | STRING        | Customer's name                                          |
+| status        | STRING        | Status order (pending, processing, completed, cancelled) |
+| total_price   | DECIMAL(10,2) | Total harga pesanan                                      |
+| created_at    | TIMESTAMP     | Waktu dibuat                                             |
+| updated_at    | TIMESTAMP     | Waktu diperbarui                                         |
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### **Order Items Table**
 
-## Contributing
+| Column     | Type          | Description                |
+| ---------- | ------------- | -------------------------- |
+| id         | BIGINT (PK)   | Primary key                |
+| order_id   | BIGINT (FK)   | Referensi ke `orders.id`   |
+| product_id | BIGINT (FK)   | Referensi ke `products.id` |
+| quantity   | INTEGER       | Jumlah produk dalam order  |
+| price      | DECIMAL(10,2) | Harga per unit             |
+| created_at | TIMESTAMP     | Waktu dibuat               |
+| updated_at | TIMESTAMP     | Waktu diperbarui           |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### **Invoices Table**
 
-## Code of Conduct
+| Column       | Type          | Description              |
+| ------------ | ------------- | ------------------------ |
+| id           | BIGINT (PK)   | Primary key              |
+| order_id     | BIGINT (FK)   | Referensi ke `orders.id` |
+| amount       | DECIMAL(10,2) | Total invoice            |
+| invoice_date | DATE          | Tanggal faktur           |
+| created_at   | TIMESTAMP     | Waktu dibuat             |
+| updated_at   | TIMESTAMP     | Waktu diperbarui         |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### **Products Table**
 
-## Security Vulnerabilities
+| Column     | Type          | Description      |
+| ---------- | ------------- | ---------------- |
+| id         | BIGINT (PK)   | Primary key      |
+| name       | STRING        | Nama produk      |
+| price      | DECIMAL(10,2) | Harga per unit   |
+| stock      | INTEGER       | Stok tersedia    |
+| created_at | TIMESTAMP     | Waktu dibuat     |
+| updated_at | TIMESTAMP     | Waktu diperbarui |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### **Users Table (Auth)**
 
-## License
+| Column     | Type        | Description       |
+| ---------- | ----------- | ----------------- |
+| id         | BIGINT (PK) | Primary key       |
+| name       | STRING      | Nama pengguna     |
+| email      | STRING      | Email unik        |
+| password   | STRING      | Password (hashed) |
+| created_at | TIMESTAMP   | Waktu dibuat      |
+| updated_at | TIMESTAMP   | Waktu diperbarui  |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 📡 API Endpoints
+
+### **Authentication (Auth)**
+
+#### 🔹 Register
+
+-   **POST** `/api/register`
+-   **Request Body:**
+    ```json
+    {
+        "name": "Fadel Razsiah",
+        "email": "fadelrzsh@gmail.com",
+        "password": "password123"
+    }
+    ```
+-   **Response:**
+    ```json
+    {
+        "message": "User registered successfully",
+        "token": "jwt_token_here"
+    }
+    ```
+
+#### 🔹 Login
+
+-   **POST** `/api/login`
+-   **Request Body:**
+    ```json
+    {
+        "email": "fadelrzsh@gmail.com",
+        "password": "password123"
+    }
+    ```
+-   **Response:**
+    ```json
+    {
+        "message": "Login successful",
+        "token": "jwt_token_here"
+    }
+    ```
+
+### **Products**
+
+#### 🔹 Get All Products
+
+-   **GET** `/api/products`
+-   **Response:**
+    ```json
+    [
+        {
+            "id": 1,
+            "name": "Product A",
+            "price": 100.0,
+            "stock": 10
+        }
+    ]
+    ```
+
+#### 🔹 Create Product
+
+-   **POST** `/api/products`
+-   **Request Body:**
+    ```json
+    {
+        "name": "Product A",
+        "price": 100.0,
+        "stock": 10
+    }
+    ```
+
+### **Orders**
+
+#### 🔹 Create Order
+
+-   **POST** `/api/orders`
+-   **Request Body:**
+    ```json
+    {
+        "customer_name": "John Doe",
+        "items": [{ "product_id": 1, "quantity": 2 }]
+    }
+    ```
+-   **Response:**
+    ```json
+    {
+        "message": "Order created successfully",
+        "order_id": 1,
+        "total_price": 200.0,
+        "status": "pending"
+    }
+    ```
+
+### **Invoices**
+
+#### 🔹 Generate Invoice
+
+-   **POST** `/api/invoices`
+-   **Request Body:**
+    ```json
+    {
+        "order_id": 1,
+        "invoice_date": "2024-07-15"
+    }
+    ```
+
+---
+
+## 📜 Dokumentasi Lengkap
+
+### **Swagger**
+
+-   Tersedia di endpoint `/api/documentation/`
+
+### **Postman Collection**
+
+-   Dokumentasi API tersedia dalam Postman Collection (**on file**)
+
+---
+
+## 🤝 Contributing
+
+Pull request sangat disambut baik! Silakan buka issue terlebih dahulu sebelum melakukan perubahan besar.
+
+---
+
+## ⚖️ License
+
+Proyek ini dilisensikan di bawah MIT License.
